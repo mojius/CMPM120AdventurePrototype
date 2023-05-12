@@ -4,9 +4,11 @@ class AdventureScene extends Phaser.Scene {
         this.inventory = data.inventory || [];
     }
 
-    constructor(key, name) {
+    constructor(key, name, textColor = "#ffffff", bgColor = "#000000") {
         super(key);
         this.name = name;
+        this.textColor = textColor;
+        this.bgColor = bgColor;
     }
 
     create() {
@@ -16,17 +18,17 @@ class AdventureScene extends Phaser.Scene {
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
 
-        this.cameras.main.setBackgroundColor('#444');
+        this.cameras.main.setBackgroundColor(this.bgColor);
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
 
-        this.add.rectangle(this.w * 0.75, 0, this.w * 0.25, this.h).setOrigin(0, 0).setFillStyle(0);
+        this.add.rectangle(this.w * 0.75, 0, this.w * 0.25, this.h, this.bgColor).setOrigin(0, 0).setFillStyle(0)
         this.add.text(this.w * 0.75 + this.s, this.s)
             .setText(this.name)
             .setStyle({ fontSize: `${3 * this.s}px` })
             .setWordWrapWidth(this.w * 0.25 - 2 * this.s);
         
         this.messageBox = this.add.text(this.w * 0.75 + this.s, this.h * 0.33)
-            .setStyle({ fontSize: `${2 * this.s}px`, color: '#eea' })
+            .setStyle({ fontSize: `${2 * this.s}px`, color: this.textColor })
             .setWordWrapWidth(this.w * 0.25 - 2 * this.s);
 
         this.inventoryBanner = this.add.text(this.w * 0.75 + this.s, this.h * 0.66)
@@ -51,15 +53,26 @@ class AdventureScene extends Phaser.Scene {
 
         this.onEnter();
 
+        if(new URL(window.location.href).searchParams.get("debug") == "true") {
+            let debugText = this.add.text(0, 0, "(?, ?)")
+            debugText.setOrigin(0, 0);
+            debugText.depth = Infinity;
+            debugText.setColor("#ffffff");
+            this.input.on(Phaser.Input.Events.POINTER_MOVE, (ev) => {
+                debugText.text = `(${ev.x}, ${ev.y})`;
+            })
+        }
     }
+
+
 
     showMessage(message) {
         this.messageBox.setText(message);
         this.tweens.add({
             targets: this.messageBox,
             alpha: { from: 1, to: 0 },
-            easing: 'Quintic.in',
-            duration: 4 * this.transitionDuration
+            easing: 'Sine.out',
+            duration: 8 * this.transitionDuration
         });
     }
 
