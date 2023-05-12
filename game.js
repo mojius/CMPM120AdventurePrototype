@@ -35,7 +35,7 @@ class Intro extends Phaser.Scene{
 class Outside extends AdventureScene
 {
     constructor(){
-        super("outside", "Outside the Haunted House", "#f54fff", "#ffffff")
+        super("outside", "Outside the Haunted House", "#f54fff", 0x663300)
     }
 
     preload()
@@ -118,7 +118,7 @@ class Outside extends AdventureScene
 class Foyer extends AdventureScene {
 
     constructor(){
-        super("foyer", "The Haunted Foyer", "#3399ff")
+        super("foyer", "The Haunted Foyer", "#3399ff", 0x003300)
     }
 
     preload()
@@ -237,7 +237,7 @@ class Foyer extends AdventureScene {
 // Do table stuff. Add skeleton, table, bedroom flavor text, spooky ending, maybe a bonus item and you're done.
 class Balcony extends AdventureScene {
     constructor(){
-        super("balcony", "The Balcony", "#00ff00")
+        super("balcony", "The Balcony", "#00ff00", 0x33334d)
     }
 
     preload()
